@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+
+    <title>Lobby</title>
+  </head>
+
+  <body>
+
+
+    <script>
+      const socket = io('http://localhost:8080')
+      const audio = new Audio();
+      socket.on("connection", () => {
+        console.log('Hello World!');
+      });
+
+      socket.on("url", (data) => {
+        console.log(data);
+        audio.src = `${data}`;
+      })
+
+      socket.on("play", data => {
+        console.log(data);
+        audio.play();
+      })
+
+    </script>
+  </body>
+  
+</html>

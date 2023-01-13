@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Host</title>
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+  </head>
+
+  <body>
+
+    <p id="godzina"></p>
+    <div>
+    <input name="test" type="text" class="message" id="txt" placeholder="   URL nagrania np https://youtube..." />
+    <button id="btn" onclick="sendMessage()">submite</button>
+    <button class="play" id="btnPlay" onclick="play()">Play</button>
+    </div>
+
+    <style>
+      html, 
+body {
+    height: 100%;
+}
+
+body {
+    background-color: rgb(36, 36, 36);
+}
+
+div {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+a {
+    margin: 0;
+}
+
+.play {
+  background-color:rgb(26, 141, 11);
+  height: 50px;
+  width: 240px;
+  border-radius: 10px;
+  border: 2px solid rgb(0, 0, 0);
+  transition: 1s all;
+  font-weight: 600;
+  font-size: 100%;
+}
+
+.play:hover{
+    background-color: rgb(60, 255, 0);
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px 0px white;
+}
+
+#txt{
+    height: 44px;
+    width: 500px;
+    border-radius: 10px;
+    background-color: grey;
+    border: 2px solid rgb(0, 0, 0);
+    transition: 1s all;
+    font-weight: 300;
+    font-size: 100%;
+}
+
+#txt:hover, #txt:focus{
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px 0px white;
+}
+
+#btn{
+    height: 50px;
+    width: 240px;
+    border-radius: 10px;
+    background-color: rgb(146, 7, 7);
+    border: 2px solid rgb(0, 0, 0);
+    transition: 1s all;
+    font-weight: 600;
+    font-size: 100%;
+}
+
+#btn:hover{
+    background-color: rgb(255, 0, 0);
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px 0px white;
+}
+    </style>
+
+
+
+    <script>
+
+      const socket = io('http://localhost:8080')
+      const playStop = false;
+
+      socket.on("connection", () => {
+        console.log('Hello World!');
+      });
+
+      socket.on("message", (data) => {
+        console.log(data);
+      });
+
+      socket.on("play", (data) => {
+        console.log(data);
+      });
+
+      function play(){
+        socket.emit("play", ("play"));
+        //playStop == false ? (playStop = false) : (playStop = true);
+        //if (playStop == false) document.getElementbyId("play").innerText = "play";
+        //else document.getElementbyId("play").innerText = "stop";
+        console.log("message has been sended");
+      }
+
+      const sendMessage = () => {
+        const messageInput = document.querySelector('.message')
+        const message = messageInput.value
+        socket.emit("url", message)
+      }
+    </script>
+
+  </body>
+</html>
